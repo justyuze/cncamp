@@ -17,5 +17,4 @@ var err2 error = fmt.Errorf("param %s error", "name")
 func main() {
 	fmt.Printf("Error: %v \n", errorNotFound)
 	fmt.Printf("Error: %v \n", err2)
-
 }
