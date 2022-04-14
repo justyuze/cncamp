@@ -15,11 +15,21 @@ import (
 如果recover成功，这个线程时不会被panic掉的。有点像其他语言的try catch*/
 func main() {
 	defer func() {
-		fmt.Println("defer func is called")
+		fmt.Println("main defer func is called")
 		if err := recover(); err != nil {
 			fmt.Println(err)
 		}
 		fmt.Println("recover success")
+	}()
+
+	testPanic()
+
+}
+
+func testPanic() {
+
+	defer func() {
+		fmt.Println("inner defer func is called")
 	}()
 
 	fmt.Println("some logic begin")
@@ -32,9 +42,10 @@ func main() {
 /* 输出结果
 some logic begin
 some logic end
-defer func is called
+inner defer func is called
+main defer func is called
 a panic is triggerd
 recover success
-根据结果判断：panic相当于抛出错误，程序并没有马上crash，而是执行defer并往外层抛。
-直到抛到最上层才会crash或者遇到了defer中的recover进行恢复操作。
+根据结果判断：panic相当于抛出错误，程序并没有马上crash，而是执行堆栈中的一层层defer并往外一层层的抛。
+直到抛到最底层才会crash或者遇到了defer中的recover进行恢复操作。
 */
