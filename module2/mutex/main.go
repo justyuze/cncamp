@@ -42,7 +42,7 @@ func wlock() {
 	}
 }
 
-// 锁是互斥的
+// 标准锁是互斥的
 // 锁 -> 0
 func lock() {
 	lock := sync.Mutex{}
