@@ -55,9 +55,12 @@ func consumer(channel <-chan int, ctx context.Context, no int) {
 			fmt.Printf("主线程发起停止操作，消费者%d停止消费数据\n", no)
 			return
 		default:
-			fmt.Printf("消费者%d开始消费数据\n", no)
-			n := <-channel
-			fmt.Printf("消费者%d消费数据 %d, 队列长度为：%d \n", no, n, len(channel))
+			if len(channel) > 0 {
+				fmt.Printf("消费者%d开始消费数据\n", no)
+				n := <-channel
+				fmt.Printf("消费者%d消费数据 %d, 队列长度为：%d \n", no, n, len(channel))
+			}
+
 		}
 
 	}

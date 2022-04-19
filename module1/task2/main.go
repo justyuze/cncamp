@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"fmt"
-	"math/rand"
 	"time"
 )
 
@@ -27,7 +26,6 @@ func producer(channel chan<- int, ctx context.Context) {
 	ticker := time.NewTicker(2 * time.Second)
 	var n int = 0
 	for range ticker.C {
-		rand.Seed(time.Now().UnixNano())
 		select {
 		case <-ctx.Done():
 			fmt.Println("主线程发起停止操作，生产者停止生产数据")
