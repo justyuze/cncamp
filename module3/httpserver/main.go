@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"log"
 	"net/http"
 )
 
@@ -15,7 +15,7 @@ func main() {
 
 	err := http.ListenAndServe(":80", nil)
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 
 }

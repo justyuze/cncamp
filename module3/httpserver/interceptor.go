@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"log"
 	"net/http"
 	"os"
 
@@ -42,7 +42,7 @@ func HeaderInterceptor() Interceptor {
 //2. 读取当前系统的环境变量中的 VERSION 配置，并写入 response header
 func VersionInterceptor() Interceptor {
 	return func(w *StatusResponseWriter, r *http.Request, next InterceptorHandlerFunc) {
-
+		os.Setenv("VERSION", "1.1")
 		version := os.Getenv("VERSION")
 		w.Header().Set("VERSION", version)
 		next(w, r)
@@ -58,8 +58,8 @@ func LogInterceptor() Interceptor {
 			ip = exnet.ClientIP(r)
 		}
 		next(w, r)
-		fmt.Printf("客户端IP为：%s \n", ip)
-		fmt.Printf("HTTP 返回码：%d \n", w.statusCode)
+		log.Printf("客户端IP为：%s \n", ip)
+		log.Printf("HTTP 返回码：%d \n", w.statusCode)
 
 	}
 }
