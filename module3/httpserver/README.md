@@ -15,8 +15,9 @@ docker pull kleven2020/httpserver:1.1
 
 ### 查看镜像
 docker images
-REPOSITORY              TAG       IMAGE ID       CREATED          SIZE
-kleven2020/httpserver   1.1       5f4dbee51662   20 minutes ago   83.9MB
+|REPOSITORY|TAG|IMAGE ID|CREATED|SIZE|
+|----|----|----|----|----|
+|kleven2020/httpserver|1.1|5f4dbee51662|20 minutes ago|83.9MB|
 
 ### 运行镜像
 docker run -d -p 8080:80 --name httpserver 5f4dbee51662
@@ -26,9 +27,13 @@ docker run -d -p 8080:80 --name httpserver 5f4dbee51662
 
 ### 1. 
 lsns -t net
-        NS TYPE NPROCS   PID USER    NETNSID NSFS                           COMMAND
-4026531992 net     122     1 root unassigned                                /sbin/init nopti
-4026532257 net       2  1879 root          0 /run/docker/netns/b018ddd6414a /bin/sh -c ./httpserver
+|NS|TYPE|NPROCS|PID|USER|NETNSID|NSFS|COMMAND|
+|----|----|----|----|----|----|----|----|
+|4026531992|net|122|1|root|unassigned||/sbin/init nopti|
+|4026532257|net|2|1879|root|0|/run/docker/netns/b018ddd6414a| /bin/sh -c ./httpserver|
+    
+                                       
+        
 
 ### 2. 
 nsenter -t 1879 -n ip a
