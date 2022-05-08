@@ -1,5 +1,4 @@
-# Mac 下构建 Linux 可执行程序
-CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build
+
 
 # 作业
 ## 构建本地镜像
@@ -17,7 +16,7 @@ docker pull kleven2020/httpserver:1.1
 docker images
 |REPOSITORY|TAG|IMAGE ID|CREATED|SIZE|
 |----|----|----|----|----|
-|kleven2020/httpserver|1.1|5f4dbee51662|20 minutes ago|83.9MB|
+|kleven2020/httpserver|1.1|5f4dbee51662|20 minutes ago|6.09MB|
 
 ### 运行镜像
 docker run -d -p 8080:80 --name httpserver 5f4dbee51662
@@ -33,8 +32,6 @@ lsns -t net
 |4026532257|net|2|1879|root|0|/run/docker/netns/b018ddd6414a| /bin/sh -c ./httpserver|
     
                                        
-        
-
 ### 2. 
 nsenter -t 1879 -n ip a
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
