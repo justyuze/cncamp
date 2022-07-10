@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: httpserver-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: httpserver
+  template:
+    metadata:
+      labels:
+        app: httpserver
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                    - httpserver
+            topologyKey: kubernetes.io/hostname
+      imagePullSecrets: 
+      - name: kleven-registry
+      containers:
+        - name: httpserver
+          image: kleven-repository:8083/kleven2020/httpserver:1.1
+          env:
+            # 定义环境变量
+            - name: SERVER_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: httpserver-env
+                  key: httpport
+            - name: LOG_LEVEL
+              valueFrom:
+                configMapKeyRef:
+                  name: httpserver-env
+                  key: loglevel
+            - name: VERSION
+              valueFrom:
+                configMapKeyRef:
+                  name: httpserver-env
+                  key: version
+          ports:
+          - containerPort: $SERVER_PORT
+          
+          # 资源需求和QoS保证
+          resources:
+            requests:
+              memory: 256Mi
+              # 1m = 1/1000 个cpu
+              cpu: 100m
+
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 80
+            failureThreshold: 1
+            periodSeconds: 3
+          
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 80
+            failureThreshold: 1
+            periodSeconds: 3
+            
+          startupProbe:
+            httpGet:
+              path: /healthz
+              port: 80
+            failureThreshold: 30
+            periodSeconds: 10
+
+      #volumns:
+      #- name: env
+        #configMap:
+          #name: httpserver-env

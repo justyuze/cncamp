@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: httpserver
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    name: http
+  selector:
+    app: httpserver
+    
+  # 就近访问  
+  topologyKeys:
+    - "kubernetes.io/hostname"
+    - "topology.kubernetes.io/zone"
+    - "topology.kubernetes.io/region"
+    - "*"
